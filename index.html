@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .alert {
+            padding: 10px;
+            background-color: #ffcc00;
+            color: black;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .danger-alert {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Expense Tracker</h1>
+</header>
+
+<div class="container">
+
+    <!-- Salary Input -->
+    <h2>Enter Your Monthly Salary</h2>
+    <form method="POST">
+        <input type="number" step="0.01" name="salary" placeholder="Salary" required>
+        <button type="submit">Set Salary</button>
+    </form>
+
+    <!-- Expense Entry Form -->
+    <h2>Enter Expense</h2>
+    <form method="POST">
+        <input type="text" name="description" placeholder="Expense Description" required>
+        <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+        <input type="text" name="category" placeholder="Category (e.g., Food, Transport)" required>
+        <input type="date" name="date" required>
+        <button type="submit" name="expense">Add Expense</button>
+    </form>
+
+    <!-- Financial Target Form -->
+    <h2>Enter Financial Target (if any)</h2>
+    <form method="POST">
+        <input type="number" step="0.01" name="financial_target" placeholder="Financial Target" required>
+        <input type="date" name="target_date" required>
+        <button type="submit">Set Financial Target</button>
+    </form>
+
+    <!-- Normal Expenses Threshold -->
+    <h2>Enter Normal Spending Threshold</h2>
+    <form method="POST">
+        <input type="number" step="0.01" name="normal_expenses_threshold" placeholder="Normal Expenses Threshold" required>
+        <button type="submit">Set Threshold</button>
+    </form>
+
+    <!-- Alerts Section -->
+    {% if overspending_alert %}
+        <div class="alert {% if 'Warning' in overspending_alert %}danger-alert{% endif %}">
+            <strong>{{ overspending_alert }}</strong>
+        </div>
+    {% endif %}
+
+    <!-- Expenses List -->
+    <h2>Expenses</h2>
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+        </tr>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.description }}</td>
+            <td>${{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+            <td>{{ expense.date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Monthly Spending Summary -->
+    <h2>Monthly Spending Summary</h2>
+    <p>Total Expenses: ${{ total_expenses }}</p>
+    {% if salary > 0 %}
+        <p>Remaining Balance: ${{ salary - total_expenses }}</p>
+    {% endif %}
+
+    <!-- Financial Target -->
+    {% if financial_target > 0 %}
+        <h2>Financial Target</h2>
+        <p>Your Financial Target: ${{ financial_target }}</p>
+        <p>Target Date: {{ target_date }}</p>
+        <p>You need to save <strong>${{ savings_needed_per_day | round(2) }}</strong> per day, 
+           <strong>${{ savings_needed_per_month | round(2) }}</strong> per month, 
+           and <strong>${{ savings_needed_per_year | round(2) }}</strong> per year.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
