@@ -1,0 +1,1 @@
+The Expenses Tracker is a simple web application built using Python and the Flask framework to help users track their daily expenses. The application provides a clean and efficient way to add, manage, and view expenditures. It allows users to easily enter details like the expense name, amount, and date, and displays all recorded expenses in a user-friendly interface.
