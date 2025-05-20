@@ -20,13 +20,15 @@ A simple yet effective expense tracking application built using Flask. This app 
 - **Data Format**: JSON (`expenses.json`)
 - **Server**: Localhost (Flask built-in server)
 
-## 📂 Project Structure
+ 📂 Project Structure
 project-folder/
 │
 ├── app.py # Main Flask application
 ├── expenses.json # Sample expenses data
 ├── templates/
 │ └── index.html # HTML interface 
+
+
 
 1. **Clone the repository**
 ```bash
